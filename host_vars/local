@@ -1,0 +1,6 @@
+apps_folder: /logiciels
+artifactory_repo_url: http://localhost:8081/artifactory/libs-snapshot-local
+artefact_name: esieeLabProductionCore
+artefact_path: fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-20161128.091020-2.tar.gz
+remote_user_id: etudiant
+rest_api_server_port: 8095

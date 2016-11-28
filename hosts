@@ -1,2 +1,3 @@
 [services_machine]
-127.0.0.1 ansible_connection=local ansible_sudo_pass='etudiant'
+local ansible_host=127.0.0.1 ansible_connection=local ansible_sudo_pass='etudiant'
+localBis ansible_host=127.0.0.1 ansible_connection=local ansible_sudo_pass='etudiant'
