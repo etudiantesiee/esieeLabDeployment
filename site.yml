@@ -5,27 +5,26 @@
   become: true
   
   tasks:
-     - name: Create application {{ application.name }} folder if not existing
+     - name: Create applications folder if not existing
        file: 
-           path={{ install_apps_folder }}/{{ application.name }}
+           path={{ install_apps_folder }}/{{ item.name }}
            state=directory 
            owner={{ remote_user_id }} 
            group={{ remote_user_id }} 
            recurse=yes
-       with_items: 
-        - "{{ application }}"
+       with_items: "{{ applicationsEsiee }}"
        
-     - name: Deploying {{ application.name }}
+     - name: Deploying applications
        unarchive: 
-           src={{ artifactory_repo_url }}/{{application.package}} 
-           dest={{ install_apps_folder }}/{{ application.name }}
+           src={{ artifactory_repo_url }}/{{item.package}} 
+           dest={{ install_apps_folder }}/{{ item.name }}
            remote_src=yes
-       with_items: "{{ application }}"
+       with_items: "{{ applicationsEsiee }}"
      
-     - name: Configuring application {{ application.name }} port
+     - name: Configuring applications port
        lineinfile: 
-            dest={{ install_apps_folder }}/{{ application.name }}/conf/application.properties 
+            dest={{ install_apps_folder }}/{{ item.name }}/conf/application.properties 
             regexp='^.*server\.port.*$' 
-            line='server.port={{ application.port }}' 
+            line='server.port={{ item.port }}' 
             owner={{ remote_user_id }} group={{ remote_user_id }}
-       with_items: "{{ application }}"
+       with_items: "{{ applicationsEsiee }}"

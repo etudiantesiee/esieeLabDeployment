@@ -3,6 +3,14 @@ install_apps_folder: /logiciels
 remote_user_id: etudiant
 artifactory_repo_url: http://localhost:8081/artifactory/libs-snapshot-local
 
-application :
-  - { name : 'esieeLabProductionCore', package : 'fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-20161128.091020-2.tar.gz', port : '8095' }
-  - { name : 'esieeLabProductionCoreBis', package : 'fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-20161128.091020-2.tar.gz', port : '8095' }
+applicationsEsiee :
+  - { 
+     name : 'esieeLabProductionCoreI1', 
+     package : 'fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-20161128.091020-2.tar.gz', 
+     port : '8095' 
+    }
+  - { 
+     name : 'esieeLabProductionCoreI2', 
+     package : 'fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-20161128.091020-2.tar.gz', 
+     port : '8095' 
+    }
