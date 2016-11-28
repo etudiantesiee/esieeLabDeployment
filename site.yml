@@ -1,0 +1,25 @@
+---
+- hosts: services_machine
+
+  vars:
+     apps_folder: /logiciels
+     artifactory_repo_url: http://localhost:8081/artifactory/libs-snapshot-local
+     artefact_name: esieeLabProductionCore
+     artefact_path: fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-20161128.091020-2.tar.gz
+
+  remote_user: etudiant
+  become: true
+  
+  tasks:
+     - name: Create application {{ artefact_name }} folder if not existing
+       file: 
+           path={{ apps_folder }}/{{ artefact_name }}
+           state=directory 
+           owner=etudiant 
+           group=etudiant 
+           recurse=yes
+       
+     - name: Deploying {{ artefact_name }}
+       unarchive: 
+           src={{ artifactory_repo_url }}/{{artefact_path}} dest={{ apps_folder }}/{{ artefact_name }}
+           remote_src=yes
