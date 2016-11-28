@@ -6,8 +6,10 @@
      artifactory_repo_url: http://localhost:8081/artifactory/libs-snapshot-local
      artefact_name: esieeLabProductionCore
      artefact_path: fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-20161128.091020-2.tar.gz
+     remote_user_id: etudiant
+     rest_api_server_port: 8091
 
-  remote_user: etudiant
+  remote_user: "{{ remote_user_id }}"
   become: true
   
   tasks:
@@ -15,11 +17,19 @@
        file: 
            path={{ apps_folder }}/{{ artefact_name }}
            state=directory 
-           owner=etudiant 
-           group=etudiant 
+           owner={{ remote_user_id }} 
+           group={{ remote_user_id }} 
            recurse=yes
        
      - name: Deploying {{ artefact_name }}
        unarchive: 
-           src={{ artifactory_repo_url }}/{{artefact_path}} dest={{ apps_folder }}/{{ artefact_name }}
+           src={{ artifactory_repo_url }}/{{artefact_path}} 
+           dest={{ apps_folder }}/{{ artefact_name }}
            remote_src=yes
+     
+     - name: Configuring application {{ artefact_name }}
+       lineinfile: 
+            dest={{ apps_folder }}/{{ artefact_name }}/conf/application.properties 
+            regexp='^.*server\.port.*$' 
+            line='server.port={{ rest_api_server_port }}' 
+            owner={{ remote_user_id }} group={{ remote_user_id }}
