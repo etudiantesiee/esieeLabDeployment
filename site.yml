@@ -5,13 +5,23 @@
   become: true
   
   tasks:
-     - name: Create applications folder if not existing
+     - name: Delete applications folder
+       file: 
+           path={{ install_apps_folder }}/{{ item.name }}
+           state=absent 
+           owner={{ remote_user_id }} 
+           group={{ remote_user_id }} 
+           backup=yes
+       with_items: "{{ applicationsEsiee }}"
+       
+     - name: Create applications folder
        file: 
            path={{ install_apps_folder }}/{{ item.name }}
            state=directory 
            owner={{ remote_user_id }} 
            group={{ remote_user_id }} 
            recurse=yes
+           backup=yes
        with_items: "{{ applicationsEsiee }}"
        
      - name: Deploying applications
@@ -19,6 +29,9 @@
            src={{ artifactory_repo_url }}/{{item.package}} 
            dest={{ install_apps_folder }}/{{ item.name }}
            remote_src=yes
+           owner={{ remote_user_id }} 
+           group={{ remote_user_id }} 
+#           mode=0666 
        with_items: "{{ applicationsEsiee }}"
      
      - name: Configuring applications port
@@ -27,4 +40,22 @@
             regexp='^.*server\.port.*$' 
             line='server.port={{ item.port }}' 
             owner={{ remote_user_id }} group={{ remote_user_id }}
+       with_items: "{{ applicationsEsiee }}"
+     
+     - name: Create applications logs folder if not existing
+       file: 
+           path={{ logs_files_floder }}/{{ item.name }}/logs
+           state=directory 
+           owner={{ remote_user_id }} 
+           group={{ remote_user_id }} 
+           recurse=yes
+       with_items: "{{ applicationsEsiee }}"
+       
+     - name: Configuring applications logs
+       replace: 
+            dest={{ install_apps_folder }}/{{ item.name }}/conf/log4j2.xml 
+            regexp='\$\{logDirPath\}' 
+            replace='{{ logs_files_floder }}/{{ item.name }}/logs/{{ item.name }}.log' 
+            owner={{ remote_user_id }} 
+            group={{ remote_user_id }}
        with_items: "{{ applicationsEsiee }}"
