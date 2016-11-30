@@ -10,14 +10,16 @@ applicationsEsiee :
      package : 'fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-SNAPSHOT.tar.gz', 
      port : '8089',
      application_keyspace : 'playlist_comments',
-     cluster_contact_point : '127.0.0.1',
-     logLevel: 'info'
+     cluster_contact_point : '192.168.33.1',
+     logLevel: 'info',
+     execute: true
     }
   - { 
      name : 'esieeLabProductionCoreI2', 
      package : 'fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-SNAPSHOT.tar.gz', 
      port : '8095',
      application_keyspace : 'another_keyspace',
-     cluster_contact_point : '192.10.0.1',
-     logLevel: 'error'
+     cluster_contact_point : '192.168.33.1',
+     logLevel: 'error',
+     execute: false
     }
