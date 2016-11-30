@@ -1,5 +1,5 @@
-[services_local_machine]
+[local_services_machine]
 local ansible_host=127.0.0.1 ansible_connection=local ansible_sudo_pass='etudiant'
 
-[services_remote_machine]
-remote_services ansible_host=192.168.33.10
+[remote_services_machine]
+node1 ansible_host=192.168.33.10
