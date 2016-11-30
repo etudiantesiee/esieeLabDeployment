@@ -1,5 +1,5 @@
 ---
-- hosts: services_machine
+- hosts: services_local_machine
 
   remote_user: "{{ remote_user_id }}"
   become: true
