@@ -1,0 +1,12 @@
+# Suppression des repertoires d'applications s'ils existent
+# Arret des applications
+- include: deployApps/stopApps.yml
+
+# Installation des applications
+- include: deployApps/installApps.yml
+
+# Configuration des applications
+- include: deployApps/configApps.yml
+
+# Demarrage des applications
+- include: deployApps/startApps.yml

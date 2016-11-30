@@ -3,4 +3,4 @@
   remote_user: "{{ remote_user_id }}"
   become: True
   tasks:
-     - include: tasks/deployApps.yml
+     - include: tasks/initDeploy.yml
