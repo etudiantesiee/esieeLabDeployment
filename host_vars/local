@@ -11,13 +11,15 @@ applicationsEsiee :
      port : '8089',
      application_keyspace : 'playlist_comments',
      cluster_contact_point : '127.0.0.1',
-     logLevel: 'info'
+     logLevel: 'info',
+     execute: false
     }
   - { 
      name : 'esieeLabProductionCoreI2', 
      package : 'fr/esiee/pic/esieeLabProductionCore/1.1.0-SNAPSHOT/esieeLabProductionCore-1.1.0-SNAPSHOT.tar.gz', 
      port : '8095',
-     application_keyspace : 'another_keyspace',
-     cluster_contact_point : '192.10.0.1',
-     logLevel: 'error'
+     application_keyspace : 'playlist_comments',
+     cluster_contact_point : '127.0.0.1',
+     logLevel: 'debug',
+     execute: false
     }

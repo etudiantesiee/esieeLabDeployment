@@ -17,4 +17,4 @@ rebel.xml
 **/testResults/**
 .~lock*
 site.retry
-**/.vagrant/**
+.vagrant/**

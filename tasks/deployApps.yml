@@ -1,78 +1,87 @@
-- name: Delete applications folder
+# Arret des applications dans le repertoire bin d'installation de l'application
+- name: Stop applications if already install
+  shell: ./*.sh stop
+  args:
+    chdir: "{{ install_apps_folder }}/{{ item.name }}/bin/"
+    removes: "*.sh"
+  with_items: "{{ applicationsEsiee }}"
+
+# Suppression des repertoires d'applications s'ils existent
+- name: Delete applications folder if exists
   file: 
     path={{ install_apps_folder }}/{{ item.name }}
     state=absent 
-    owner={{ remote_user_id }} 
-    group={{ remote_user_id }} 
-    backup=yes
   with_items: "{{ applicationsEsiee }}"
 
+# Creation du repertoire contenant les binaires des applications
 - name: Create applications folder
   file: 
     path={{ install_apps_folder }}/{{ item.name }}
     state=directory 
-    owner={{ remote_user_id }} 
-    group={{ remote_user_id }} 
     recurse=yes
-    backup=yes
   with_items: "{{ applicationsEsiee }}"
 
+# Installation de l'application à partir de l'archive
 - name: Deploying applications
   unarchive: 
     src={{ artifactory_repo_url }}/{{item.package}} 
     dest={{ install_apps_folder }}/{{ item.name }}
     remote_src=yes
-    owner={{ remote_user_id }} 
-    group={{ remote_user_id }} 
   with_items: "{{ applicationsEsiee }}"
-     
+
+# Configuration du port d'écoute de l'application     
 - name: Configuring applications port
   lineinfile: 
      dest={{ install_apps_folder }}/{{ item.name }}/conf/application.properties 
      regexp='^.*server\.port.*$' 
      line='server.port={{ item.port }}' 
-     owner={{ remote_user_id }} group={{ remote_user_id }}
   with_items: "{{ applicationsEsiee }}"
 
+# Configuration du point de contact du cluster
 - name: Configuring applications contact point
   lineinfile: 
      dest={{ install_apps_folder }}/{{ item.name }}/conf/application.properties 
      regexp='^.*cluster_contact_point.*$' 
      line='cluster_contact_point={{ item.cluster_contact_point }}' 
-     owner={{ remote_user_id }} group={{ remote_user_id }}
   with_items: "{{ applicationsEsiee }}"
 
+# Configuration du keyspace
 - name: Configuring applications keyspace
   lineinfile: 
      dest={{ install_apps_folder }}/{{ item.name }}/conf/application.properties 
      regexp='^.*application_keyspace.*$' 
      line='application_keyspace={{ item.application_keyspace }}' 
-     owner={{ remote_user_id }} group={{ remote_user_id }}
   with_items: "{{ applicationsEsiee }}"
-     
+
+# Creation des repertoires contenant les fichiers de log     
 - name: Create applications logs folder if not existing
   file: 
     path={{ logs_files_floder }}/{{ item.name }}/logs
     state=directory 
-    owner={{ remote_user_id }} 
-    group={{ remote_user_id }} 
     recurse=yes
   with_items: "{{ applicationsEsiee }}"
 
-- name: Configuring applications logs
+# Configuration du chemin vers le fichier de logs
+- name: Configuring applications logs path
   replace: 
      dest={{ install_apps_folder }}/{{ item.name }}/conf/log4j2.xml 
      regexp='\$\{logDirPath\}' 
      replace='{{ logs_files_floder }}/{{ item.name }}/logs/{{ item.name }}.log' 
-     owner={{ remote_user_id }} 
-     group={{ remote_user_id }}
   with_items: "{{ applicationsEsiee }}"
 
+# Configuration du niveau de log des applications
 - name: Configuring applications logs level
   replace: 
      dest={{ install_apps_folder }}/{{ item.name }}/conf/log4j2.xml 
      regexp='\$\{logLevel\}' 
      replace={{item.logLevel}} 
-     owner={{ remote_user_id }} 
-     group={{ remote_user_id }}
+  with_items: "{{ applicationsEsiee }}"
+  
+# Demarrage des applications dans le repertoire bin d'installation de l'application
+- name: Start applications
+  shell: ./*.sh start
+  args:
+    chdir: "{{ install_apps_folder }}/{{ item.name }}/bin/"
+    removes: "*.sh"
+  when: "{{ item.execute }}"
   with_items: "{{ applicationsEsiee }}"

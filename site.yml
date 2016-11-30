@@ -1,6 +1,6 @@
 ---
 - hosts: ["local", "node1"]
   remote_user: "{{ remote_user_id }}"
-  become: true
+  become: True
   tasks:
      - include: tasks/deployApps.yml
