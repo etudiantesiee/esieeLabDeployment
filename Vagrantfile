@@ -8,6 +8,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "node1" do |machine|
   
+  	  # Configuration du timeout : 20 minutes (20 * 60)
+  	  machine.vm.boot_timeout=1200
+  
   	  # Configuration spécifique de virtualbox
 	  machine.vm.provider "virtualbox" do |vb|
 	  	  # Config specifique car nous créons un VM dans une autre VM
@@ -15,6 +18,9 @@ Vagrant.configure("2") do |config|
 	      
 	      # Nom de la VM node1
 	      vb.name = "node1"
+
+	      # Configuration de l'interface graphique
+	      vb.gui = false 
 	  end
   
       # Adresse IP et nom du serveur distant
