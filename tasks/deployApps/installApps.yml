@@ -1,18 +1,11 @@
 # Creation du repertoire contenant les binaires des applications
+# On itere sur les applications définit avec la variable applicationEsiee
 - name: Create applications folder
   file: 
     path={{ install_apps_folder }}/{{ item.name }}
     state=directory 
     recurse=yes
-  with_items: "{{ applicationsEsiee }}"
-
-# Installation de l'application à partir de l'archive
-- name: Deploying applications
-  unarchive: 
-    src={{ artifactory_repo_url }}/{{item.package}} 
-    dest={{ install_apps_folder }}/{{ item.name }}
-    remote_src=yes
-  with_items: "{{ applicationsEsiee }}"
+  with_items: "{{ applicationsEsiee }}" 
   
 # Creation des repertoires contenant les fichiers de log     
 - name: Create applications logs folder if not existing
@@ -20,4 +13,12 @@
     path={{ logs_files_floder }}/{{ item.name }}/logs
     state=directory 
     recurse=yes
+  with_items: "{{ applicationsEsiee }}"
+  
+# Installation de l'application à partir de l'archive
+- name: Deploying applications
+  unarchive: 
+    src={{ artifactory_repo_url }}/{{item.package}} 
+    dest={{ install_apps_folder }}/{{ item.name }}
+    remote_src=yes
   with_items: "{{ applicationsEsiee }}"

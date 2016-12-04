@@ -1,6 +1,0 @@
-# Arret des applications dans le repertoire bin d'installation de l'application
-- name: Stop applications if already install
-  shell: "{{ install_apps_folder }}/{{ item.name }}/bin/*.sh stop"
-  args:
-    removes: "{{ install_apps_folder }}/{{ item.name }}/bin/*.sh"
-  with_items: "{{ applicationsEsiee }}"
