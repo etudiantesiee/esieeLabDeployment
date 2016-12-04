@@ -6,14 +6,6 @@
      line='server.port={{ item.port }}' 
   with_items: "{{ applicationsEsiee }}"
 
-# Configuration du point de contact du cluster
-- name: Configuring applications contact point
-  lineinfile: 
-     dest={{ install_apps_folder }}/{{ item.name }}/conf/application.properties 
-     regexp='^.*cluster_contact_point.*$' 
-     line='cluster_contact_point={{ item.cluster_contact_point }}' 
-  with_items: "{{ applicationsEsiee }}"
-
 # Configuration du keyspace
 - name: Configuring applications keyspace
   lineinfile: 
@@ -28,12 +20,4 @@
      dest={{ install_apps_folder }}/{{ item.name }}/conf/log4j2.xml 
      regexp='\$\{logDirPath\}' 
      replace='{{ logs_files_floder }}/{{ item.name }}/logs/{{ item.name }}.log' 
-  with_items: "{{ applicationsEsiee }}"
-
-# Configuration du niveau de log des applications
-- name: Configuring applications logs level
-  replace: 
-     dest={{ install_apps_folder }}/{{ item.name }}/conf/log4j2.xml 
-     regexp='\$\{logLevel\}' 
-     replace={{item.logLevel}} 
   with_items: "{{ applicationsEsiee }}"

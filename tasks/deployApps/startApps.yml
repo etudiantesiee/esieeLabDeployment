@@ -1,8 +1,0 @@
-# Demarrage des applications dans le repertoire bin d'installation de l'application
-- name: Start applications
-  shell: ./*.sh start
-  args:
-    chdir: "{{ install_apps_folder }}/{{ item.name }}/bin/"
-    removes: "*.sh"
-  when: "{{ item.execute }}"
-  with_items: "{{ applicationsEsiee }}"
