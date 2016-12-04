@@ -1,8 +1,0 @@
-# Ajout des dépendances
-- include: serverConfig/dependencies.yml
-
-# Ajout des dépôts
-- include: serverConfig/repositories.yml
-
-# Installation de java
-- include: serverConfig/java-install.yml

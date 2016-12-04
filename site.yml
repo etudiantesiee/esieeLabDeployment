@@ -4,10 +4,3 @@
   become: True
   tasks:
      - include: tasks/initDeploy.yml
-
-- hosts: ["node1"]
-  remote_user: "{{ remote_user_id }}"
-  become: True
-  tasks:
-     - include: tasks/initServerConfig.yml
-     - include: tasks/initDeploy.yml
